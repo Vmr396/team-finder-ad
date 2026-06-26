@@ -1,14 +1,27 @@
 from django import forms
-from django.contrib.auth import authenticate
-from django.contrib.auth.forms import UserCreationForm
-from .models import User
+from django.contrib.auth import authenticate, get_user_model
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm
+
+from team_finder.constants import (
+    USER_NAME_MAX_LENGTH,
+    USER_SURNAME_MAX_LENGTH,
+)
+
+User = get_user_model()
+
+
+class CustomUserChangeForm(UserChangeForm):
+    class Meta:
+        model = User
+        fields = ('name', 'surname', 'avatar', 'bio', 'github_url', 'phone')
 
 
 class CustomLoginForm(forms.Form):
     email = forms.EmailField(
         label='Email',
         widget=forms.EmailInput(
-            attrs={'class': 'form-control', 'autofocus': True})
+            attrs={'class': 'form-control', 'autofocus': True}
+        )
     )
     password = forms.CharField(
         label='Пароль',
@@ -19,7 +32,7 @@ class CustomLoginForm(forms.Form):
         cleaned_data = super().clean()
         email = cleaned_data.get('email')
         password = cleaned_data.get('password')
-        
+
         if email and password:
             self.user = authenticate(username=email, password=password)
             if self.user is None:
@@ -39,13 +52,13 @@ class CustomUserCreationForm(UserCreationForm):
         widget=forms.EmailInput(attrs={'class': 'form-control'})
     )
     name = forms.CharField(
-        max_length=50,
+        max_length=USER_NAME_MAX_LENGTH,
         required=True,
         label='Имя',
         widget=forms.TextInput(attrs={'class': 'form-control'})
     )
     surname = forms.CharField(
-        max_length=50,
+        max_length=USER_SURNAME_MAX_LENGTH,
         required=True,
         label='Фамилия',
         widget=forms.TextInput(attrs={'class': 'form-control'})

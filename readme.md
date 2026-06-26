@@ -1,40 +1,71 @@
+# TeamFinder
 
-# TeamFinder (Вариант 3)
+Платформа для поиска единомышленников и совместной работы над pet-проектами.
 
-Платформа для поиска команды для pet-проектов. Реализован функционал навыков проектов и фильтрации.
+## О проекте
 
-## Запуск проекта
+TeamFinder — это веб-приложение, которое помогает разработчикам, дизайнерам и другим специалистам находить команду для реализации своих идей. Пользователи могут создавать проекты, указывать необходимые навыки, находить участников и присоединяться к чужим проектам.
+
+### Основные возможности
+
+- Регистрация и авторизация по email
+- Создание и редактирование проектов
+- Управление навыками проекта (добавление/удаление)
+- Фильтрация проектов по навыкам
+- Просмотр профилей пользователей
+- Пагинация списков (12 элементов на страницу)
+
+## Технологический стек
+
+- **Backend:** Django 5.2
+- **База данных:** PostgreSQL (Docker)
+- **Язык:** Python 3.10+
+- **Фронтенд:** HTML, CSS, JavaScript (готовые шаблоны)
+- **Контейнеризация:** Docker, Docker Compose
+
+## Установка и запуск
 
 ### Требования
-- Python 3.10+
+
+- Python 3.10 или выше
 - Docker Desktop (для PostgreSQL)
+- Git
 
 ### Шаги для запуска
 
-1. Клонируйте репозиторий:
-   ```bash
-   git clone https://github.com/Vmr396/team-finder-ad.git
-   cd team-finder-ad
-   python -m venv venv
-2. Создайте и активируйте виртуальное окружение:
+1. **Клонируйте репозиторий:**
+
+```bash
+git clone https://github.com/Vmr396/team-finder-ad.git
+cd team-finder-ad
+Создайте и активируйте виртуальное окружение:
 
 python -m venv venv
-source venv/Scripts/activate  # Windows Git Bash
-или venv\Scripts\activate  # Windows cmd
-3. Установите зависимости:
-pip install -r requirements.txt
-4. Запустите PostgreSQL в Docker:
-docker compose up -d
-5. Выполните миграции:
-python manage.py migrate
-6. Создайте суперпользователя:
-python manage.py createsuperuser
-7. Запустите сервер:
-python manage.py runserver
-8. Откройте сайт: http://127.0.0.1:8000
+source venv/Scripts/activate  # Windows (Git Bash)
+# или venv\Scripts\activate   # Windows (CMD)
+Установите зависимости:
 
-пароль суперпользоваеля
-maria@yandex.ru
-password
-12@mail.ru
-password
+pip install -r requirements.txt
+Настройте переменные окружения:
+
+Скопируйте файл .env_example в .env:
+
+cp .env_example .env
+Отредактируйте .env (подробнее в разделе Переменные окружения).
+
+Запустите PostgreSQL в Docker:
+
+docker compose up -d
+Выполните миграции:
+
+python manage.py migrate
+Создайте суперпользователя:
+
+python manage.py createsuperuser
+Запустите сервер разработки:
+
+python manage.py runserver
+Откройте сайт в браузере:
+
+text
+http://127.0.0.1:8000
