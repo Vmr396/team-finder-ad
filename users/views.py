@@ -20,7 +20,7 @@ def login_view(request):
             login(request, user)
             return redirect('projects:project_list')
     
-    messages.error(request, 'Неверный email или пароль')
+        messages.error(request, 'Неверный email или пароль')
     return render(request, 'users/login.html', {'form': form})
 
 

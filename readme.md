@@ -69,3 +69,5 @@ python manage.py runserver
 
 text
 http://127.0.0.1:8000
+
+автор Валихоматова Милана 3 курс ИВМИИТ КФУ https://github.com/Vmr396

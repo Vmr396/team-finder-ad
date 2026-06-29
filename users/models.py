@@ -1,16 +1,25 @@
+import random
+from io import BytesIO
+
+from django.core.exceptions import ValidationError
+from django.core.files.base import ContentFile
+from django.core.validators import URLValidator
 from django.db import models
 from django.contrib.auth.models import (
     AbstractBaseUser,
     PermissionsMixin,
 )
-from django.core.validators import URLValidator
-from django.core.exceptions import ValidationError
+from PIL import Image, ImageDraw, ImageFont
 
 from .managers import UserManager
 from team_finder.constants import (
     USER_NAME_MAX_LENGTH,
     USER_SURNAME_MAX_LENGTH,
     USER_PHONE_MAX_LENGTH,
+    AVATAR_SIZE,
+    AVATAR_FONT_SIZE,
+    AVATAR_COLORS,
+    AVATAR_TEXT_COLOR,
 )
 
 
@@ -58,18 +67,9 @@ class User(AbstractBaseUser, PermissionsMixin):
             self._generate_default_avatar()
 
     def _generate_default_avatar(self):
-        from PIL import Image, ImageDraw, ImageFont
-        from io import BytesIO
-        from django.core.files.base import ContentFile
-        import random
-
-        size = 100
-        colors = [
-            (70, 130, 180), (60, 179, 113), (218, 165, 32),
-            (106, 90, 205), (220, 20, 60), (255, 99, 71),
-            (75, 0, 130), (100, 149, 237), (123, 104, 238),
-        ]
-        bg_color = random.choice(colors)
+        """Генерирует аватар с первой буквой имени на цветном фоне"""
+        size = AVATAR_SIZE
+        bg_color = random.choice(AVATAR_COLORS)
 
         img = Image.new('RGB', (size, size), color=bg_color)
         draw = ImageDraw.Draw(img)
@@ -77,8 +77,8 @@ class User(AbstractBaseUser, PermissionsMixin):
         letter = (self.name[0] if self.name else self.email[0]).upper()
 
         try:
-            font = ImageFont.truetype("arial.ttf", 50)
-        except:
+            font = ImageFont.truetype("arial.ttf", AVATAR_FONT_SIZE)
+        except IOError:
             font = ImageFont.load_default()
 
         bbox = draw.textbbox((0, 0), letter, font=font)
@@ -86,7 +86,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         text_height = bbox[3] - bbox[1]
         x = (size - text_width) // 2
         y = (size - text_height) // 2
-        draw.text((x, y), letter, fill='white', font=font)
+        draw.text((x, y), letter, fill=AVATAR_TEXT_COLOR, font=font)
 
         buffer = BytesIO()
         img.save(buffer, format='PNG')

@@ -8,7 +8,7 @@ User = get_user_model()
 
 
 @admin.register(User)
-class CustomUserAdmin(UserAdmin):
+class UserAdminConfig(UserAdmin):
     form = CustomUserChangeForm
     add_form = CustomUserCreationForm
 

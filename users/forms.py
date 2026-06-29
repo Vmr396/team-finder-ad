@@ -10,13 +10,13 @@ from team_finder.constants import (
 User = get_user_model()
 
 
-class CustomUserChangeForm(UserChangeForm):
+class UserChangeFormConfig(UserChangeForm):
     class Meta:
         model = User
         fields = ('name', 'surname', 'avatar', 'bio', 'github_url', 'phone')
 
 
-class CustomLoginForm(forms.Form):
+class LoginForm(forms.Form):
     email = forms.EmailField(
         label='Email',
         widget=forms.EmailInput(
@@ -45,7 +45,7 @@ class CustomLoginForm(forms.Form):
         return getattr(self, 'user', None)
 
 
-class CustomUserCreationForm(UserCreationForm):
+class UserCreationFormConfig(UserCreationForm):
     email = forms.EmailField(
         required=True,
         label='Email',
@@ -81,3 +81,4 @@ class CustomUserCreationForm(UserCreationForm):
         if commit:
             user.save()
         return user
+    
